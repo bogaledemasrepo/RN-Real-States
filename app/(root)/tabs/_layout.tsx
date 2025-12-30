@@ -3,7 +3,11 @@ import React from 'react'
 
 const TabsLayout = () => {
   return (
-    <Tabs />
+    <Tabs screenOptions={{headerShown:false}}>
+      <Tabs.Screen name='index' />
+      <Tabs.Screen name='explore' />
+      <Tabs.Screen name='profile' />
+    </Tabs>
   )
 }
 
