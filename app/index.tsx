@@ -21,7 +21,7 @@ export default function Index() {
       <View style={{ width: "100%", paddingHorizontal: 16 }}>
         <Text style={styles.textSize2}>Welcome to RN-Real-States</Text>
         <Text style={styles.textSize1}>Let&apos;s Get You Closer to</Text>
-        <Text style={styles.textSize1}>Your Ideal Home</Text>
+        <Text style={[styles.textSize1,{color:"#3183ff"}]}>Your Ideal Home</Text>
         <CustomButton title="Get Started" onPress={getStarted} />
       </View>
     </View>
@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
   textSize1: {
     fontSize: 20,
     fontFamily: "Rubik-Bold",
-    lineHeight:24,
     color: "#666666ff",
     textAlign: "center",
   },

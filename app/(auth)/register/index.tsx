@@ -4,7 +4,13 @@ import { Checkbox } from "expo-checkbox";
 import { router } from "expo-router";
 import { Formik } from "formik";
 import React from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Yup from "yup";
 
@@ -16,8 +22,12 @@ const API_URL = "";
 
 const SignUpSchema = Yup.object().shape({
   name: Yup.string().min(2, "Name too short!").required("Name is required"),
-  email: Yup.string().email("Invalid email address").required("Email is required"),
-  password: Yup.string().min(6, "Min 6 characters").required("Password is required"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  password: Yup.string()
+    .min(6, "Min 6 characters")
+    .required("Password is required"),
   acceptTerms: Yup.boolean().oneOf([true], "You must accept the terms"),
 });
 
@@ -55,18 +65,36 @@ const SignUp = () => {
         {/* Header Section */}
         <View style={styles.headerRow}>
           <TouchableOpacity onPress={() => router.back()}>
-            <MaterialCommunityIcons name="arrow-left" size={28} color="#3183ff" />
+            <MaterialCommunityIcons
+              name="arrow-left"
+              size={28}
+              color="#3183ff"
+            />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Smart Chat App</Text>
           <View style={{ width: 28 }} />
         </View>
 
         <Formik
-          initialValues={{ name: "", email: "", password: "", acceptTerms: false }}
+          initialValues={{
+            name: "",
+            email: "",
+            password: "",
+            acceptTerms: false,
+          }}
           validationSchema={SignUpSchema}
           onSubmit={handleRegister}
         >
-          {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched, isSubmitting }) => (
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            setFieldValue,
+            values,
+            errors,
+            touched,
+            isSubmitting,
+          }) => (
             <View style={styles.card}>
               <Text style={styles.cardTitle}>Create New Account</Text>
 
@@ -113,7 +141,9 @@ const SignUp = () => {
                       onValueChange={(val) => setFieldValue("acceptTerms", val)}
                       color={values.acceptTerms ? "#3183ff" : undefined}
                     />
-                    <Text style={styles.mutedText}>Accept Terms and Policies.</Text>
+                    <Text style={styles.mutedText}>
+                      Accept Terms and Policies.
+                    </Text>
                   </View>
                   {touched.acceptTerms && errors.acceptTerms && (
                     <Text style={styles.errorText}>{errors.acceptTerms}</Text>
@@ -121,10 +151,10 @@ const SignUp = () => {
                 </View>
               </View>
 
-              <CustomButton 
-                title="Register" 
-                onPress={handleSubmit} 
-                isLoading={isSubmitting} 
+              <CustomButton
+                title="Register"
+                onPress={handleSubmit}
+                isLoading={isSubmitting}
                 style={{ marginBottom: 20 }}
               />
 
@@ -144,7 +174,11 @@ const SocialLoginSection = () => (
     <View style={styles.socialRow}>
       {["facebook", "google", "apple"].map((icon) => (
         <TouchableOpacity key={icon} style={styles.socialBtn}>
-          <MaterialCommunityIcons name={icon as any} size={20} color="#3183ff" />
+          <MaterialCommunityIcons
+            name={icon as any}
+            size={20}
+            color="#3183ff"
+          />
         </TouchableOpacity>
       ))}
     </View>
@@ -167,11 +201,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: "#fff",
     padding: 20,
-    elevation: 4,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
+    elevation: 2
   },
   cardTitle: {
     fontSize: 16,
@@ -180,13 +210,39 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 20,
   },
-  inputGap: { gap: 4, marginBottom: 10 },
-  errorText: { color: "#ff6060", fontSize: 11, marginTop: 4, marginLeft: 4 },
-  rowCenter: { flexDirection: "row", alignItems: "center" },
-  mutedText: { fontSize: 14, color: "#8a8a8a" },
-  checkbox: { marginRight: 8, width: 18, height: 18 },
-  orText: { textAlign: "center", color: "#8a8a8a", marginBottom: 16 },
-  socialRow: { flexDirection: "row", justifyContent: "center", gap: 20 },
+  inputGap: {
+    gap: 4,
+    marginBottom: 10,
+  },
+  errorText: {
+    color: "#ff6060",
+    fontSize: 11,
+    marginTop: 4,
+    marginLeft: 4,
+  },
+  rowCenter: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  mutedText: {
+    fontSize: 14,
+    color: "#8a8a8a",
+  },
+  checkbox: {
+    marginRight: 8,
+    width: 18,
+    height: 18,
+  },
+  orText: {
+    textAlign: "center",
+    color: "#8a8a8a",
+    marginBottom: 16,
+  },
+  socialRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 20,
+  },
   socialBtn: {
     height: 44,
     width: 44,
