@@ -3,6 +3,7 @@ import Header from "@/components/header-component";
 import { PropertyCard } from "@/components/property-card";
 import SearchInput from "@/components/search-input";
 import { RECOMMENDATIONS } from "@/constants";
+import { Link } from "expo-router";
 import React, { FC } from "react";
 import {
   FlatList,
@@ -28,11 +29,13 @@ const RealEstateHome: FC = () => {
 
       <SectionHeader title="Featured" />
       <FlatList
-        horizontal
+        horizontal 
         showsHorizontalScrollIndicator={false}
         data={RECOMMENDATIONS}
         keyExtractor={(item) => `featured-${item.id}`}
-        renderItem={({ item }) => <FeaturedCard item={item} />}
+        renderItem={({ item }) => <Link href={`/(root)/properties/${item.id}`} asChild>
+          <FeaturedCard item={item} />
+          </Link>}
       />
 
       <SectionHeader title="Our Recommendation" />
@@ -61,7 +64,9 @@ const RealEstateHome: FC = () => {
     <View style={[styles.safeArea, { paddingTop: top }]}>
       <FlatList
         data={RECOMMENDATIONS}
-        renderItem={({item})=><PropertyCard key={item.id} item={item} onPress={()=>{}}/>}
+        renderItem={({item})=><Link href={`/(root)/properties/${item.id}`} asChild>
+            <PropertyCard key={item.id} item={item}/>
+          </Link>}
         keyExtractor={(item) => item.id}
         numColumns={2}
         ListHeaderComponent={renderHeader}

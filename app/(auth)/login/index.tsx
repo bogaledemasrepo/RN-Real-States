@@ -20,7 +20,7 @@ const SignIn = () => {
   const { user, handleTost, handleSetUser } = useAuth();
 
   useEffect(() => {
-    if (user) router.replace("/(root)/tabs");
+    if (user) router.replace("/(auth)/login");
   }, [user]);
 
   const handleLogin = async (values: any, { setSubmitting }: any) => {
