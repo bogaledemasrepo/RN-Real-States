@@ -1,10 +1,7 @@
 import React from 'react';
 import {
   Image,
-  Platform,
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -12,6 +9,7 @@ import {
 } from 'react-native';
 // Importing from Expo's built-in library
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 // Define the valid icon names from Ionicons for type safety
 type IonIconName = keyof typeof Ionicons.glyphMap;
@@ -51,9 +49,9 @@ const SettingsItem: React.FC<SettingsItemProps> = ({
 );
 
 const ProfileScreen: React.FC = () => {
+  const {top}=useSafeAreaInsets();
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+    <View style={[styles.container,{paddingTop:top}]}>
       <ScrollView 
         showsVerticalScrollIndicator={false} 
         contentContainerStyle={styles.scrollContent}
@@ -107,7 +105,7 @@ const ProfileScreen: React.FC = () => {
           />
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -115,7 +113,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   scrollContent: {
     paddingHorizontal: 24,
@@ -124,8 +121,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    height: 60,
+    alignItems: 'center'
   },
   headerTitle: {
     fontSize: 22,

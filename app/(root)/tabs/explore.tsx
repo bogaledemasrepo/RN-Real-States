@@ -5,9 +5,11 @@ import {
   FlatList,
   Image,
   Platform,
-  ScrollView, StyleSheet,
+  ScrollView,
+  StyleSheet,
   Text,
-  TextInput, TouchableOpacity,
+  TextInput,
+  TouchableOpacity,
   View
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -59,8 +61,11 @@ const ExploreScreen: React.FC = () => {
 
   return (
     <View style={[styles.container,{paddingTop:top}]}>
-      <View style={styles.paddingContainer}>
-        {/* Header */}
+      
+
+      <FlatList
+        ListHeaderComponent={
+        <View style={[{marginHorizontal:8}]}>
         <View style={styles.header}>
           <TouchableOpacity style={styles.backButton}>
             <Ionicons name="arrow-back" size={20} color="black" />
@@ -104,8 +109,7 @@ const ExploreScreen: React.FC = () => {
 
         <Text style={styles.resultsText}>Found 182 Apartments</Text>
       </View>
-
-      <FlatList
+      }
         data={APARTMENTS}
         renderItem={renderApartment}
         keyExtractor={item => item.id}
@@ -123,7 +127,6 @@ const ExploreScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#FFFFFF' },
-  paddingContainer: { paddingHorizontal: 12 },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -171,13 +174,14 @@ const styles = StyleSheet.create({
   catText: { color: '#8E8E93', fontWeight: '600' },
   catTextActive: { color: 'white' },
   resultsText: { fontSize: 20, fontWeight: '700', marginBottom: 15 },
-  listContent: { paddingHorizontal: 20, paddingBottom: 20 },
+  listContent: {paddingBottom: 20 },
   card: {
     flexDirection: 'row',
     backgroundColor: 'white',
     borderRadius: 10,
     padding: 8,
-    marginBottom: 15,
+    marginHorizontal: 12,
+    marginVertical:6,
     ...Platform.select({
       ios: { shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 10 },
       android: { elevation: 3 },
