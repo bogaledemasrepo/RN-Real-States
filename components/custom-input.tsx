@@ -1,12 +1,12 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-    StyleSheet,
-    Text,
-    TextInput,
-    TextInputProps,
-    TouchableOpacity,
-    View,
+  StyleSheet,
+  Text,
+  TextInput,
+  TextInputProps,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 interface CustomInputProps extends TextInputProps {

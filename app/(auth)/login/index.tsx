@@ -32,7 +32,7 @@ const SignIn = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(values),
-        }
+        },
       );
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Login failed");
@@ -45,9 +45,9 @@ const SignIn = () => {
     }
   };
 
-const navigateToHome = ()=>{
-  router.navigate("/(root)/tabs")
-}
+  const navigateToHome = () => {
+    router.navigate("/(root)/tabs");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -111,9 +111,9 @@ const navigateToHome = ()=>{
 
             <CustomButton
               title="Login"
-              onPress={()=>{
-                navigateToHome()
-              //  handleSubmit
+              onPress={() => {
+                navigateToHome();
+                //  handleSubmit
               }}
               isLoading={isSubmitting}
             />
@@ -158,7 +158,6 @@ export default SignIn;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e9ecf4",
     padding: 16,
     justifyContent: "center",
   },
@@ -182,7 +181,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 12,
+    paddingHorizontal: 4,
   },
   rowCenter: { flexDirection: "row", alignItems: "center" },
   mutedText: { fontSize: 14, color: "#8a8a8a" },
@@ -190,8 +190,7 @@ const styles = StyleSheet.create({
   checkbox: { marginRight: 8, width: 18, height: 18 },
   socialRow: { flexDirection: "row", justifyContent: "center", gap: 20 },
   socialBtn: {
-    height: 48,
-    width: 48,
+    padding: 8,
     borderRadius: 24,
     backgroundColor: "#f0f6ff",
     justifyContent: "center",
@@ -199,5 +198,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#d0e3ff",
   },
-  marginVertical12: { marginVertical: 12 },
+  marginVertical12: { marginVertical: 8 },
 });

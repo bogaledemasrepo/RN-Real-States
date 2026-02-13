@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  ViewStyle
+  ViewStyle,
 } from "react-native";
 
 interface CustomButtonProps {
@@ -16,16 +16,18 @@ interface CustomButtonProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export const CustomButton = ({ title, onPress, isLoading, disabled, style }: CustomButtonProps) => {
+export const CustomButton = ({
+  title,
+  onPress,
+  isLoading,
+  disabled,
+  style,
+}: CustomButtonProps) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled || isLoading}
-      style={[
-        styles.button, 
-        (disabled || isLoading) && styles.disabled, 
-        style
-      ]}
+      style={[styles.button, (disabled || isLoading) && styles.disabled, style]}
     >
       {isLoading ? (
         <ActivityIndicator color="#fff" />
@@ -43,14 +45,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 10,
   },
   disabled: {
     opacity: 0.6,
   },
   text: {
     color: "#fff",
-    fontWeight: "700",
-    fontSize: 16,
+    fontSize: 14,
   },
 });

@@ -60,7 +60,7 @@ const SignUp = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#e9ecf4" }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.container}>
         {/* Header Section */}
         <View style={styles.headerRow}>
@@ -133,7 +133,7 @@ const SignUp = () => {
                 />
 
                 {/* Terms Checkbox */}
-                <View style={{ marginBottom: 10 }}>
+                <View style={{ paddingHorizontal: 4 }}>
                   <View style={styles.rowCenter}>
                     <Checkbox
                       style={styles.checkbox}
@@ -169,8 +169,16 @@ const SignUp = () => {
 
 // Reusable Local Sub-component
 const SocialLoginSection = () => (
-  <View>
-    <Text style={styles.orText}>Or Sign In With</Text>
+  <View
+    style={{
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 12,
+    }}
+  >
+    {/* <Text style={styles.orText}>USe</Text> */}
     <View style={styles.socialRow}>
       {["facebook", "google", "apple"].map((icon) => (
         <TouchableOpacity key={icon} style={styles.socialBtn}>
@@ -188,7 +196,11 @@ const SocialLoginSection = () => (
 export default SignUp;
 
 const styles = StyleSheet.create({
-  container: { padding: 16 },
+  container: {
+    flex: 1,
+    padding: 16,
+    justifyContent: "center",
+  },
   headerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -201,7 +213,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: "#fff",
     padding: 20,
-    elevation: 2
+    elevation: 2,
   },
   cardTitle: {
     fontSize: 16,
@@ -236,16 +248,14 @@ const styles = StyleSheet.create({
   orText: {
     textAlign: "center",
     color: "#8a8a8a",
-    marginBottom: 16,
   },
   socialRow: {
     flexDirection: "row",
     justifyContent: "center",
-    gap: 20,
+    gap: 12,
   },
   socialBtn: {
-    height: 44,
-    width: 44,
+    padding: 8,
     borderRadius: 22,
     backgroundColor: "#f0f6ff",
     justifyContent: "center",
