@@ -1,11 +1,12 @@
 import { Property } from "@/types";
+export const BASE_URL = "http://192.168.44.224:3000";
 
 export const RECOMMENDATIONS: Property[] = [
   {
     id: "1",
     name: "La Grand Maison",
     location: "Tokyo, Japan",
-    category:"",
+    category: "",
     price: "$12219",
     rating: "4.8",
     imageUrl: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750",
@@ -14,7 +15,7 @@ export const RECOMMENDATIONS: Property[] = [
     id: "2",
     name: "Modernica App",
     location: "Tokyo, Japan",
-    category:"",
+    category: "",
     price: "$1424",
     rating: "4.8",
     imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",

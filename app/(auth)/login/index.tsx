@@ -9,31 +9,29 @@ import * as Yup from "yup";
 
 import { CustomButton } from "@/components/custom-button";
 import { CustomInput } from "@/components/custom-input";
+import { BASE_URL } from "@/constants";
 import { useAuth } from "@/context/auth-context";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string().min(6, "Min 6 chars").required("Required"),
+  password: Yup.string().min(4, "Min 4 chars").required("Required"),
 });
 
 const SignIn = () => {
   const { user, handleTost, handleSetUser } = useAuth();
 
   useEffect(() => {
-    if (user) router.replace("/(auth)/login");
+    if (user) router.replace("/(root)/tabs");
   }, [user]);
 
   const handleLogin = async (values: any, { setSubmitting }: any) => {
     try {
       // Mocking the API call logic
-      const response = await fetch(
-        `${process.env.EXPO_PUBLIC_API_URL}/auth/login`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
-        },
-      );
+      const response = await fetch(`${BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Login failed");
 
@@ -43,10 +41,6 @@ const SignIn = () => {
     } finally {
       setSubmitting(false);
     }
-  };
-
-  const navigateToHome = () => {
-    router.navigate("/(root)/tabs");
   };
 
   return (
@@ -111,10 +105,7 @@ const SignIn = () => {
 
             <CustomButton
               title="Login"
-              onPress={() => {
-                navigateToHome();
-                //  handleSubmit
-              }}
+              onPress={handleSubmit}
               isLoading={isSubmitting}
             />
 

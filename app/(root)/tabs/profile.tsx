@@ -1,15 +1,18 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
-} from 'react-native';
+  View,
+} from "react-native";
 // Importing from Expo's built-in library
-import { Ionicons } from '@expo/vector-icons';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useAuth } from "@/context/auth-context";
+import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // Define the valid icon names from Ionicons for type safety
 type IonIconName = keyof typeof Ionicons.glyphMap;
@@ -21,22 +24,22 @@ interface SettingsItemProps {
   destructive?: boolean;
 }
 
-const SettingsItem: React.FC<SettingsItemProps> = ({ 
-  icon, 
-  label, 
-  onPress, 
-  destructive = false 
+const SettingsItem: React.FC<SettingsItemProps> = ({
+  icon,
+  label,
+  onPress,
+  destructive = false,
 }) => (
-  <TouchableOpacity 
-    style={styles.itemContainer} 
+  <TouchableOpacity
+    style={styles.itemContainer}
     onPress={onPress}
     activeOpacity={0.6}
   >
     <View style={styles.itemLeft}>
-      <Ionicons 
-        name={icon} 
-        size={24} 
-        color={destructive ? '#E53E3E' : '#1A1D1E'} 
+      <Ionicons
+        name={icon}
+        size={24}
+        color={destructive ? "#E53E3E" : "#1A1D1E"}
       />
       <Text style={[styles.itemLabel, destructive && styles.destructiveText]}>
         {label}
@@ -49,17 +52,34 @@ const SettingsItem: React.FC<SettingsItemProps> = ({
 );
 
 const ProfileScreen: React.FC = () => {
-  const {top}=useSafeAreaInsets();
+  const router = useRouter();
+  const { top } = useSafeAreaInsets();
+  const { handleSetUser } = useAuth();
+  const handleLogout = () => {
+    AsyncStorage.removeItem("authToken")
+      .then(() => {
+        // Clear user data from context or state management
+        // For example, if you have a handleSetUser function in your auth context:
+        // handleSetUser(null);
+        // Navigate to login screen
+        handleSetUser(null);
+        router.navigate("/(auth)/login");
+      })
+      .catch((err) => console.log("Error during logout:", err));
+    // Implement logout logic here (e.g., clear user data, navigate to login screen)
+  };
   return (
-    <View style={[styles.container,{paddingTop:top}]}>
-      <ScrollView 
-        showsVerticalScrollIndicator={false} 
+    <View style={[styles.container, { paddingTop: top }]}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
       >
         {/* Header Area */}
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Profile</Text>
-          <TouchableOpacity hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+          <TouchableOpacity
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+          >
             <Ionicons name="notifications-outline" size={24} color="black" />
           </TouchableOpacity>
         </View>
@@ -67,9 +87,9 @@ const ProfileScreen: React.FC = () => {
         {/* Profile Header */}
         <View style={styles.profileCard}>
           <View style={styles.avatarWrapper}>
-            <Image 
-              source={{ uri: 'https://github.com/adrianhajdin.png' }} 
-              style={styles.avatar} 
+            <Image
+              source={{ uri: "https://github.com/adrianhajdin.png" }}
+              style={styles.avatar}
             />
             <TouchableOpacity style={styles.editBadge}>
               <Ionicons name="pencil" size={12} color="white" />
@@ -98,10 +118,11 @@ const ProfileScreen: React.FC = () => {
 
         {/* Logout Section */}
         <View style={styles.section}>
-          <SettingsItem 
-            icon="log-out-outline" 
-            label="Logout" 
-            destructive 
+          <SettingsItem
+            icon="log-out-outline"
+            label="Logout"
+            destructive
+            onPress={handleLogout}
           />
         </View>
       </ScrollView>
@@ -112,29 +133,29 @@ const ProfileScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
   },
   scrollContent: {
     paddingHorizontal: 24,
     paddingBottom: 40,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   headerTitle: {
     fontSize: 22,
-    fontWeight: 'bold',
-    color: '#1A1D1E',
+    fontWeight: "bold",
+    color: "#1A1D1E",
   },
   profileCard: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 20,
     marginBottom: 30,
   },
   avatarWrapper: {
-    position: 'relative',
+    position: "relative",
   },
   avatar: {
     width: 120,
@@ -142,49 +163,49 @@ const styles = StyleSheet.create({
     borderRadius: 60,
   },
   editBadge: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 2,
     right: 2,
-    backgroundColor: '#FF8C00',
+    backgroundColor: "#FF8C00",
     width: 28,
     height: 28,
     borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderWidth: 3,
-    borderColor: '#FFF',
+    borderColor: "#FFF",
   },
   userName: {
     fontSize: 24,
-    fontWeight: '700',
-    color: '#1A1D1E',
+    fontWeight: "700",
+    color: "#1A1D1E",
     marginTop: 16,
   },
   section: {
     marginBottom: 10,
   },
   itemContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingVertical: 14,
   },
   itemLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   itemLabel: {
     fontSize: 16,
-    fontWeight: '500',
-    color: '#1A1D1E',
+    fontWeight: "500",
+    color: "#1A1D1E",
     marginLeft: 16,
   },
   destructiveText: {
-    color: '#E53E3E',
+    color: "#E53E3E",
   },
   divider: {
     height: 1,
-    backgroundColor: '#F2F2F7',
+    backgroundColor: "#F2F2F7",
     marginVertical: 10,
   },
 });

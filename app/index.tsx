@@ -15,13 +15,15 @@ export default function Index() {
       <Image
         style={styles.image}
         source={require("../assets/images/onboarding.png")}
-        contentFit="contain"
+        contentFit="fill"
         transition={1000}
       />
       <View style={{ width: "100%", paddingHorizontal: 16 }}>
         <Text style={styles.textSize2}>Welcome to RN-Real-States</Text>
         <Text style={styles.textSize1}>Let&apos;s Get You Closer to</Text>
-        <Text style={[styles.textSize1,{color:"#3183ff"}]}>Your Ideal Home</Text>
+        <Text style={[styles.textSize1, { color: "#3183ff" }]}>
+          Your Ideal Home
+        </Text>
         <CustomButton title="Get Started" onPress={getStarted} />
       </View>
     </View>
