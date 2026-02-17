@@ -1,5 +1,5 @@
-import { RECOMMENDATIONS } from "@/constants";
-import { Property } from "@/types";
+import { BASE_URL } from "@/constants";
+import { RealStateDetail } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -12,7 +12,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 const Facility = ({ icon, label }: { icon: any; label: string }) => (
   <View style={styles.facilityItem}>
@@ -23,22 +26,27 @@ const Facility = ({ icon, label }: { icon: any; label: string }) => (
   </View>
 );
 
-
 export default function RealEstateApp() {
-  const {top,bottom}=useSafeAreaInsets()
-  const { id } = useLocalSearchParams();
-  const [selectedProperty, setSelectedProperty] = useState<Property | null>(
-    null
-  );
+  const { top, bottom } = useSafeAreaInsets();
+  const { id: pathId } = useLocalSearchParams();
+  const [selectedProperty, setSelectedProperty] =
+    useState<RealStateDetail | null>(null);
   useEffect(() => {
-    const data = RECOMMENDATIONS.find((Item) => Item.id === id);
-    if (data) return setSelectedProperty(data);
-  }, [id]);
+    fetch(`${BASE_URL}/listings/${pathId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Fetched property:", data);
+        return setSelectedProperty(data);
+      })
+      .catch((err) => console.error("Error fetching property:", err));
+  }, [pathId]);
   return (
-    <View style={[styles.container,{paddingTop:top,paddingBottom:bottom}]}>
+    <View
+      style={[styles.container, { paddingTop: top, paddingBottom: bottom }]}
+    >
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageBackground
-          source={{ uri: selectedProperty?.imageUrl }}
+          source={{ uri: selectedProperty?.images[0] }}
           style={styles.detailHero}
         >
           <SafeAreaView style={styles.detailHeader}>
@@ -60,7 +68,7 @@ export default function RealEstateApp() {
         </ImageBackground>
 
         <View style={styles.detailContent}>
-          <Text style={styles.detailTitle}>{selectedProperty?.name}</Text>
+          <Text style={styles.detailTitle}>{selectedProperty?.title}</Text>
           <View style={styles.detailSubRow}>
             <Text style={styles.typeTag}>Apartment</Text>
             <Text style={styles.ratingText}>
@@ -69,19 +77,32 @@ export default function RealEstateApp() {
           </View>
 
           <View style={styles.statsRow}>
-            <Stat icon="bed-outline" val="8 Beds" />
-            <Stat icon="water-outline" val="3 Bath" />
-            <Stat icon="move-outline" val="2000 sqft" />
+            {
+              <Stat
+                icon="bed-outline"
+                val={`${selectedProperty?.numOfBedrooms || 0} Beds`}
+              />
+            }
+            <Stat
+              icon="water-outline"
+              val={`${selectedProperty?.numOfBathrooms || 0} Bath`}
+            />
+            <Stat
+              icon="move-outline"
+              val={`${selectedProperty?.areaInSqFt || 0} sqft`}
+            />
           </View>
 
           <Text style={styles.detailSectionTitle}>Agent</Text>
           <View style={styles.agentRow}>
             <Image
-              source={{ uri: "https://i.pravatar.cc/100" }}
+              source={{ uri: selectedProperty?.agent.avatar }}
               style={styles.agentAvatar}
             />
             <View style={{ flex: 1, marginLeft: 12 }}>
-              <Text style={styles.agentName}>Natasya Wilodra</Text>
+              <Text style={styles.agentName}>
+                {selectedProperty?.agent.name}
+              </Text>
               <Text style={styles.agentRole}>Owner</Text>
             </View>
             <Ionicons
@@ -107,7 +128,11 @@ export default function RealEstateApp() {
       <View style={styles.footer}>
         <View>
           <Text style={styles.priceSub}>PRICE</Text>
-          <Text style={styles.totalPrice}>{selectedProperty?.price}</Text>
+          {selectedProperty && (
+            <Text style={styles.totalPrice}>
+              ${parseFloat(selectedProperty.price) / 100 || 0}
+            </Text>
+          )}
         </View>
         <TouchableOpacity style={styles.bookBtn}>
           <Text style={styles.bookBtnText}>Booking Now</Text>
@@ -234,9 +259,9 @@ const styles = StyleSheet.create({
   },
   bookBtn: {
     backgroundColor: "#FF8C00",
-    paddingHorizontal: 35,
+    paddingHorizontal: 20,
     paddingVertical: 15,
-    borderRadius: 25,
+    borderRadius: 8,
   },
   bookBtnText: {
     color: "white",

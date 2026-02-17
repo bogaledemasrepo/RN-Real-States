@@ -54,7 +54,7 @@ const SettingsItem: React.FC<SettingsItemProps> = ({
 const ProfileScreen: React.FC = () => {
   const router = useRouter();
   const { top } = useSafeAreaInsets();
-  const { handleSetUser } = useAuth();
+  const { handleSetUser, user } = useAuth();
   const handleLogout = () => {
     AsyncStorage.removeItem("authToken")
       .then(() => {
@@ -88,14 +88,14 @@ const ProfileScreen: React.FC = () => {
         <View style={styles.profileCard}>
           <View style={styles.avatarWrapper}>
             <Image
-              source={{ uri: "https://github.com/adrianhajdin.png" }}
+              source={{ uri: user?.avatar || "https://i.pravatar.cc/300" }}
               style={styles.avatar}
             />
             <TouchableOpacity style={styles.editBadge}>
               <Ionicons name="pencil" size={12} color="white" />
             </TouchableOpacity>
           </View>
-          <Text style={styles.userName}>Adrian Hajdin</Text>
+          <Text style={styles.userName}>{user?.name || "Adrian Hajdin"}</Text>
         </View>
 
         {/* Top Section */}

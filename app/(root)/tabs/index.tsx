@@ -1,48 +1,71 @@
 import { FeaturedCard } from "@/components/featured-card";
 import Header from "@/components/header-component";
-import { PropertyCard } from "@/components/property-card";
-import SearchInput from "@/components/search-input";
-import { RECOMMENDATIONS } from "@/constants";
+import { RecommendedCard } from "@/components/recomended-card";
+import { BASE_URL } from "@/constants";
+import { RealState } from "@/types";
 import { Link } from "expo-router";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import {
   FlatList,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
 
 // 2. Main Screen Component
 const RealEstateHome: FC = () => {
   const { top } = useSafeAreaInsets();
+  const [featuredData, setFeaturedData] = React.useState<RealState[]>([]);
+  const [recommendations, setRecommendations] = React.useState<RealState[]>([]);
+  const getFeaturedData = async () => {
+    const response = await fetch(`${BASE_URL}/listings/featured`);
+    if (!response.ok)
+      return console.log("Failed to fetch featured data", response);
+    const data = await response.json();
+    setFeaturedData(data);
+  };
+  const fetchRecommended = async () => {
+    const response = await fetch(
+      `${BASE_URL}/listings/recommended?lat=155.78&lng=78.45`,
+    );
+    if (!response.ok)
+      return console.log("Failed to fetch fetchRecommended", response);
+    const data = await response.json();
+    setRecommendations(data);
+    console.log("Recommended Listings:", data);
+  };
+  useEffect(() => {
+    getFeaturedData();
+  }, []);
+  useEffect(() => {
+    fetchRecommended();
+  }, []);
   const renderHeader = () => (
     <View style={{ paddingHorizontal: 12 }}>
-      {/* Header Profile */}
-
       <Header />
-      {/* Search Bar */}
-      <SearchInput />
-
-      <SectionHeader title="Featured" />
+      {/* <SearchInput /> */}
+      {/* <SectionHeader title="Featured" /> */}
+      <View style={{ height: 20 }} />
       <FlatList
-        horizontal 
+        horizontal
         showsHorizontalScrollIndicator={false}
-        data={RECOMMENDATIONS}
+        data={featuredData}
         keyExtractor={(item) => `featured-${item.id}`}
-        renderItem={({ item }) => <Link href={`/(root)/properties/${item.id}`} asChild>
-          <FeaturedCard item={item} />
-          </Link>}
+        renderItem={({ item }) => (
+          <Link href={`/(root)/properties/${item.id}`} asChild>
+            <FeaturedCard item={item} />
+          </Link>
+        )}
       />
 
       <SectionHeader title="Our Recommendation" />
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        style={{ marginBottom: 20 }}
+        style={{ marginBottom: 8 }}
       >
         {["All", "House", "Villa", "Apartments"].map((cat, i) => (
           <TouchableOpacity
@@ -63,15 +86,17 @@ const RealEstateHome: FC = () => {
   return (
     <View style={[styles.safeArea, { paddingTop: top }]}>
       <FlatList
-        data={RECOMMENDATIONS}
-        renderItem={({item})=><Link href={`/(root)/properties/${item.id}`} asChild>
-            <PropertyCard key={item.id} item={item}/>
-          </Link>}
-        keyExtractor={(item) => item.id}
+        data={recommendations}
+        renderItem={({ item }) => (
+          <Link href={`/(root)/properties/${item.id}`} asChild>
+            <RecommendedCard key={item.id} item={item} />
+          </Link>
+        )}
+        keyExtractor={(item) => item.id.toString()}
         numColumns={2}
         ListHeaderComponent={renderHeader}
         columnWrapperStyle={styles.columnWrapper}
-        contentContainerStyle={{ paddingBottom: 40 }}
+        contentContainerStyle={{ paddingBottom: 40, gap: "1%" }}
       />
     </View>
   );
@@ -87,7 +112,6 @@ const SectionHeader: FC<{ title: string }> = ({ title }) => (
   </View>
 );
 
-
 // 4. Stylesheet
 const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: "#FFFFFF" },
@@ -95,22 +119,22 @@ const styles = StyleSheet.create({
   sectionHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginVertical: 20,
+    marginVertical: 12,
     alignItems: "center",
   },
-  sectionTitle: { fontSize: 18, fontWeight: "bold", color: "#1A1D1E" },
+  sectionTitle: { fontSize: 16, fontWeight: "semibold", color: "#828383" },
   seeAll: { color: "#FF8C00", fontWeight: "600" },
 
   categoryBtn: {
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 8,
     borderRadius: 8,
     backgroundColor: "#F7F8FA",
     marginRight: 10,
   },
   activeCategory: { backgroundColor: "#FF8C00" },
   recPrice: { color: "#FF8C00", fontWeight: "bold", fontSize: 14 },
-  columnWrapper: { justifyContent: "space-between", paddingHorizontal: 12 },
+  columnWrapper: { justifyContent: "space-between", paddingHorizontal: 8 },
 });
 
 export default RealEstateHome;
