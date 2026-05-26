@@ -1,7 +1,7 @@
 import FilterModal from "@/components/FilterModal";
 import { BASE_URL } from "@/constants";
 import { Ionicons } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
@@ -11,6 +11,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableHighlight,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -29,6 +30,7 @@ interface Apartment {
 const CATEGORIES = ["All", "House", "Villa", "Apartments", "Others"];
 
 const ExploreScreen: React.FC = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [explored, setExplored] = useState([]);
   const [activeCategory, setActiveCategory] = useState("All");
@@ -52,8 +54,9 @@ const ExploreScreen: React.FC = () => {
     exploreRealstates();
   }, [])
   const renderApartment = ({ item }: { item: Apartment }) => (
-    <Link href={`/(root)/properties/${item.id}`} asChild>
-    <View style={styles.card}>
+
+    <TouchableHighlight underlayColor={"#c5c5c598"} onPress={()=>router.push(`/(root)/properties/${item.id}`)}>
+      <View style={styles.card}>
       <View style={styles.imageWrapper}>
         <Image source={{ uri: item.image }} style={styles.cardImage} />
         <View style={styles.ratingBadge}>
@@ -75,8 +78,8 @@ const ExploreScreen: React.FC = () => {
         <Text style={styles.cardLocation}>{item.location}</Text>
         <Text style={styles.cardPrice}>{item.price}</Text>
       </View>
-    </View>
-    </Link>
+      </View>
+    </TouchableHighlight>
   );
 
   return (
@@ -242,9 +245,9 @@ const styles = StyleSheet.create({
   ratingText: { fontSize: 10, fontWeight: "700", marginLeft: 2 },
   cardContent: { flex: 1, marginLeft: 15, justifyContent: "space-between" },
   cardHeader: { flexDirection: "row", justifyContent: "space-between" },
-  cardTitle: { fontSize: 16, fontWeight: "700", flex: 1, marginRight: 5 },
+  cardTitle: { fontSize: 14, fontWeight: "400", flex: 1, marginRight: 5 },
   cardLocation: { fontSize: 13, color: "#8E8E93" },
-  cardPrice: { fontSize: 18, fontWeight: "700", color: "#FF8C00" },
+  cardPrice: { fontSize: 16, fontWeight: "700", color: "#FF8C00" },
 });
 
 export default ExploreScreen;
