@@ -75,14 +75,14 @@ const ProfileScreen: React.FC = () => {
         contentContainerStyle={styles.scrollContent}
       >
         {/* Header Area */}
-        <View style={styles.header}>
+        {/* <View style={styles.header}>
           <Text style={styles.headerTitle}>Profile</Text>
           <TouchableOpacity
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           >
             <Ionicons name="notifications-outline" size={24} color="black" />
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         {/* Profile Header */}
         <View style={styles.profileCard}>
@@ -100,7 +100,6 @@ const ProfileScreen: React.FC = () => {
 
         {/* Top Section */}
         <View style={styles.section}>
-          <SettingsItem icon="calendar-outline" label="My Booking" />
           <SettingsItem icon="wallet-outline" label="Payments" />
         </View>
 
@@ -108,7 +107,6 @@ const ProfileScreen: React.FC = () => {
 
         {/* Main Settings Section */}
         <View style={styles.section}>
-          <SettingsItem icon="person-outline" label="Profile" />
           <SettingsItem icon="notifications-outline" label="Notification" />
           <SettingsItem icon="shield-checkmark-outline" label="Security" />
           <SettingsItem icon="language-outline" label="Language" />
@@ -136,7 +134,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
   scrollContent: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
     paddingBottom: 40,
   },
   header: {
