@@ -2,12 +2,12 @@ import { Ionicons } from '@expo/vector-icons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import React, { useState } from 'react';
 import {
-    Modal,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   counterValue: { marginHorizontal: 15, fontSize: 16, fontWeight: '700' },
   setFilterBtn: {
     backgroundColor: '#FF8C00',
-    paddingVertical: 18,
+    paddingVertical: 12,
     borderRadius: 10,
     alignItems: 'center',
     marginBottom: 20,
