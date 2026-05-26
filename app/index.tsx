@@ -1,6 +1,9 @@
 import { CustomButton } from "@/components/custom-button";
+import { BASE_URL } from "@/constants";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "expo-image";
 import { router } from "expo-router";
+import { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -10,6 +13,24 @@ export default function Index() {
     router.navigate("/(auth)/login");
     console.log("Pressed");
   };
+  async function authLogin() {
+    const token = await AsyncStorage.getItem("access-token");
+    fetch(`${BASE_URL}/users/me`,{
+      headers:{
+        "Authorization":"Bearer "+token
+      }
+    }).then(res => {
+      if (!res.ok) throw Error("Invalid token!");
+      return res.json()
+    }).then(data => {
+      console.log(data)
+    }).catch(err=>{
+      console.error("ERROR",err)
+    })
+  }
+  useEffect(() => {
+    authLogin();
+  }, [])
   return (
     <View style={[styles.container, { paddingTop: top }]}>
       <Image
