@@ -1,6 +1,7 @@
 import { BASE_URL } from "@/constants";
 import { RealStateDetail } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
@@ -31,15 +32,23 @@ export default function RealEstateApp() {
   const { id: pathId } = useLocalSearchParams();
   const [selectedProperty, setSelectedProperty] =
     useState<RealStateDetail | null>(null);
-  useEffect(() => {
-    fetch(`${BASE_URL}/listings/${pathId}`)
+  async function getDetail() {
+    const token = await AsyncStorage.getItem("access-token");
+    fetch(`${BASE_URL}/listings/${pathId}`, {
+      headers: {
+        "Authorization": "Bearer " + token
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched property:", data);
         return setSelectedProperty(data);
       })
       .catch((err) => console.error("Error fetching property:", err));
-  }, [pathId]);
+  }
+  useEffect(() => {
+    getDetail();
+  }, []);
   return (
     <View
       style={[styles.container, { paddingTop: top, paddingBottom: bottom }]}
