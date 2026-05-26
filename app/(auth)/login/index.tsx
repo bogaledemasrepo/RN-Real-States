@@ -11,6 +11,7 @@ import { CustomButton } from "@/components/custom-button";
 import { CustomInput } from "@/components/custom-input";
 import { BASE_URL } from "@/constants";
 import { useAuth } from "@/context/auth-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -18,6 +19,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const SignIn = () => {
+  AsyncStorage.getItem("")
   const { user, handleTost, handleSetUser } = useAuth();
 
   useEffect(() => {
@@ -34,7 +36,7 @@ const SignIn = () => {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Login failed");
-
+      AsyncStorage.setItem("access-token", data.token)
       handleSetUser({ ...data.user, token: data.token });
     } catch (err: any) {
       handleTost(err.message, "error", 3000);

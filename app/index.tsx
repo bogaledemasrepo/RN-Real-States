@@ -1,5 +1,6 @@
 import { CustomButton } from "@/components/custom-button";
 import { BASE_URL } from "@/constants";
+import { useAuth } from "@/context/auth-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image } from "expo-image";
 import { router } from "expo-router";
@@ -8,24 +9,27 @@ import { StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Index() {
+  const { user, handleSetUser } = useAuth();
+  useEffect(() => {
+    if (user) router.replace("/(root)/tabs");
+  }, [user]);
   const { top } = useSafeAreaInsets();
   const getStarted = () => {
     router.navigate("/(auth)/login");
-    console.log("Pressed");
   };
   async function authLogin() {
     const token = await AsyncStorage.getItem("access-token");
-    fetch(`${BASE_URL}/users/me`,{
-      headers:{
-        "Authorization":"Bearer "+token
+    fetch(`${BASE_URL}/users/me`, {
+      headers: {
+        "Authorization": "Bearer " + token
       }
     }).then(res => {
       if (!res.ok) throw Error("Invalid token!");
       return res.json()
     }).then(data => {
-      console.log(data)
-    }).catch(err=>{
-      console.error("ERROR",err)
+      handleSetUser(data);
+    }).catch(err => {
+      console.error("ERROR", err)
     })
   }
   useEffect(() => {
