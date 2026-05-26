@@ -17,8 +17,8 @@ export const FeaturedCard: React.FC<{ item: RealState }> = ({ item }) => {
       </View>
       <View style={styles.overlay}>
         <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.loc}>{item.address}</Text>
-        <Text style={styles.price}>{item.price}</Text>
+        {/* <Text style={styles.loc}>{item.address}</Text> */}
+        <Text style={styles.price}>$ {item.price}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
   badgeText: { fontSize: 12, color: "#007AFF", fontWeight: "bold" },
   overlay: { position: "absolute", bottom: 20, left: 20 },
-  title: { color: "#FFF", fontSize: 20, fontWeight: "bold" },
+  title: { color: "#FFF", fontSize: 14, fontWeight: "500" },
   loc: { color: "rgba(255,255,255,0.8)" },
-  price: { color: "#FFF", fontSize: 18, fontWeight: "bold", marginTop: 4 },
+  price: { color: "#FFF", fontSize: 18, fontWeight: "600", marginTop: 4 },
 });

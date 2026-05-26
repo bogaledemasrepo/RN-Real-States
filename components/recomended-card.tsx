@@ -17,7 +17,7 @@ export const RecommendedCard: React.FC<{ item: RealState }> = ({ item }) => {
       </View>
       <View style={styles.overlay}>
         <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.loc}>{item.address}</Text>
+        {/* <Text style={styles.loc}>{item.address}</Text> */}
         <Text style={styles.price}>${parseFloat(item.price) / 100}</Text>
       </View>
     </TouchableOpacity>
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   badgeText: { fontSize: 12, color: "#007AFF", fontWeight: "bold" },
   overlay: { position: "absolute", bottom: 8, left: 8 },
-  title: { color: "#FFF", fontSize: 14, fontWeight: "bold" },
+  title: { color: "#FFF", fontSize: 12, fontWeight: "400" },
   loc: { color: "rgba(255,255,255,0.8)", fontSize: 12, marginTop: 4 },
-  price: { color: "#FFF", fontSize: 12, fontWeight: "bold", marginTop: 4 },
+  price: { color: "#FFF", fontSize: 14, fontWeight: "bold", marginTop: 4 },
 });

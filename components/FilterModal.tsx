@@ -147,14 +147,14 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
-  headerTitle: { fontSize: 20, fontWeight: '700' },
+  headerTitle: { fontSize: 18, fontWeight: '700' },
   resetText: { color: '#FF8C00', fontSize: 16, fontWeight: '600' },
   scrollBody: { paddingBottom: 30 },
-  sectionTitle: { fontSize: 18, fontWeight: '700', marginTop: 25, marginBottom: 15 },
+  sectionTitle: { fontSize: 16, fontWeight: '700', marginTop: 25, marginBottom: 15 },
   sliderContainer: { alignItems: 'center' },
   sliderMarker: {
-    height: 24,
-    width: 24,
+    height: 16,
+    width: 16,
     borderRadius: 12,
     backgroundColor: 'white',
     borderWidth: 3,
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#F6F6F6',
   },
-  detailLabel: { fontSize: 16, color: '#8E8E93', fontWeight: '500' },
+  detailLabel: { fontSize: 14, color: '#8E8E93', fontWeight: '500' },
   counterRow: { flexDirection: 'row', alignItems: 'center' },
   counterBtn: { padding: 4, backgroundColor: '#FFF8F0', borderRadius: 8 },
   counterValue: { marginHorizontal: 15, fontSize: 16, fontWeight: '700' },
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
   },
-  setFilterText: { color: 'white', fontSize: 18, fontWeight: '700' },
+  setFilterText: { color: 'white', fontSize: 14, fontWeight: '700' },
 });
 
 export default FilterModal;
