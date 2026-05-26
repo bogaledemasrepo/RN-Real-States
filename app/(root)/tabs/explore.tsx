@@ -1,6 +1,8 @@
 import FilterModal from "@/components/FilterModal";
+import { BASE_URL } from "@/constants";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import { Link } from "expo-router";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
@@ -23,35 +25,34 @@ interface Apartment {
   image: string;
 }
 
-const APARTMENTS: Apartment[] = [
-  {
-    id: "1",
-    title: "Lucky Lake Apartments",
-    location: "Beijing, China",
-    price: "$1234",
-    rating: 4.8,
-    image:
-      "https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=400",
-  },
-  {
-    id: "2",
-    title: "Home Away From Home",
-    location: "Beijing, China",
-    price: "$1234",
-    rating: 4.8,
-    image:
-      "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=400",
-  },
-];
 
 const CATEGORIES = ["All", "House", "Villa", "Apartments", "Others"];
 
 const ExploreScreen: React.FC = () => {
+  const [loading, setLoading] = useState(false);
+  const [explored, setExplored] = useState([]);
   const [activeCategory, setActiveCategory] = useState("All");
   const [filterVisible, setFilterVisible] = useState(false);
   const { top } = useSafeAreaInsets();
+  function exploreRealstates() {
+    setLoading(true)
+    fetch(`${BASE_URL}/listings/recommended?lat=12&lng=12`).then(res => {
+      if (!res.ok) throw Error("Faild to fetch exploring");
+      return res.json()
+    }).then(data => {
+      setExplored(data)
+    }).catch(err => {
+      console.log("ERROR", err)
+    }).finally(() => {
+      setLoading(false)
+    })
+  }
 
+  useEffect(() => {
+    exploreRealstates();
+  }, [])
   const renderApartment = ({ item }: { item: Apartment }) => (
+    <Link href={`/(root)/properties/${item.id}`} asChild>
     <View style={styles.card}>
       <View style={styles.imageWrapper}>
         <Image source={{ uri: item.image }} style={styles.cardImage} />
@@ -75,6 +76,7 @@ const ExploreScreen: React.FC = () => {
         <Text style={styles.cardPrice}>{item.price}</Text>
       </View>
     </View>
+    </Link>
   );
 
   return (
@@ -134,7 +136,9 @@ const ExploreScreen: React.FC = () => {
             {/* <Text style={styles.resultsText}>Found 182 Apartments</Text> */}
           </View>
         }
-        data={APARTMENTS}
+        onRefresh={exploreRealstates}
+        data={explored}
+        refreshing={loading}
         renderItem={renderApartment}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
