@@ -35,7 +35,6 @@ const RealEstateHome: FC = () => {
       return console.log("Failed to fetch fetchRecommended", response);
     const data = await response.json();
     setRecommendations(data);
-    console.log("Recommended Listings:", data);
   };
   useEffect(() => {
     getFeaturedData();

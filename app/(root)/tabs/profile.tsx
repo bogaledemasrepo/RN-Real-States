@@ -56,14 +56,14 @@ const ProfileScreen: React.FC = () => {
   const { top } = useSafeAreaInsets();
   const { handleSetUser, user } = useAuth();
   const handleLogout = () => {
-    AsyncStorage.removeItem("authToken")
+    AsyncStorage.removeItem("access-token")
       .then(() => {
         // Clear user data from context or state management
         // For example, if you have a handleSetUser function in your auth context:
         // handleSetUser(null);
         // Navigate to login screen
         handleSetUser(null);
-        router.navigate("/(auth)/login");
+        // router.navigate("/(auth)/login");
       })
       .catch((err) => console.log("Error during logout:", err));
     // Implement logout logic here (e.g., clear user data, navigate to login screen)

@@ -1,10 +1,12 @@
 import { useAuth } from "@/context/auth-context";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const Header = () => {
+  const router = useRouter()
   const { user } = useAuth();
   return (
     <View style={styles.headerRow}>
@@ -15,7 +17,9 @@ const Header = () => {
           <Text style={styles.userName}>{user?.name}</Text>
         </View>
       </View>
-      <Ionicons name="notifications-outline" size={24} color="black" />
+      <TouchableOpacity onPress={() => router.navigate("/notifications")}>
+        <Ionicons name="notifications-outline" size={24} color="black" />
+      </TouchableOpacity>
     </View>
   );
 };

@@ -7,7 +7,8 @@ const RootLayout = () => {
   const { user } = useAuth();
   useEffect(() => {
     if (user) return router.navigate("/(root)/tabs");
-  }, [user, router]);
+    else return router.navigate("/(auth)/login");
+  }, [user]);
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="tabs" />

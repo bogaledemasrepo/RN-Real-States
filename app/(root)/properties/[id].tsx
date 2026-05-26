@@ -60,7 +60,7 @@ export default function RealEstateApp() {
         >
           <SafeAreaView style={styles.detailHeader}>
             <TouchableOpacity
-              onPress={() => router.navigate("/(root)/tabs")}
+              onPress={() => router.back()}
               style={styles.roundBtn}
             >
               <Ionicons name="arrow-back" size={20} color="black" />
