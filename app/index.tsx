@@ -29,7 +29,7 @@ export default function Index() {
     }).then(data => {
       handleSetUser(data);
     }).catch(err => {
-      console.error("ERROR", err)
+      console.log("ERROR", err)
     })
   }
   useEffect(() => {
