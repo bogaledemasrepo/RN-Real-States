@@ -42,10 +42,10 @@
     "yup": "^1.7.1"
   },
   "devDependencies": {
-    "@types/react": "~19.1.17",
+    "@types/react": "~19.2.14",
     "eslint": "^9.39.5",
     "eslint-config-expo": "~56.0.4",
-    "typescript": "~5.9.3"
+    "typescript": "~6.0.3"
   },
   "private": true
 }
