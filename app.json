@@ -7,7 +7,6 @@
     "icon": "./assets/images/icon.png",
     "scheme": "rnrealstates",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.codwithbogi.realstates"
@@ -46,7 +45,10 @@
             "./assets/fonts/Rubik-SemiBold.ttf"
           ]
         }
-      ]
+      ],
+      "expo-status-bar",
+      "expo-image",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
